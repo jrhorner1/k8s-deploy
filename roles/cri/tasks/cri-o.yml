@@ -1,0 +1,54 @@
+---
+# Instructions: https://kubernetes.io/docs/setup/production-environment/container-runtimes/#cri-o
+
+# curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/Release.key | sudo apt-key --keyring /etc/apt/trusted.gpg.d/libcontainers.gpg add -
+# curl -L https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:$VERSION/$OS/Release.key | sudo apt-key --keyring /etc/apt/trusted.gpg.d/libcontainers-cri-o.gpg add -
+- name: 'debian : add an apt signing keys for cri-o'
+  apt_key:
+    url: "{{ item.url }}"
+    keyring: "{{ item.keyring }}"
+    state: present
+  loop: 
+    - url: "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/{{ crio_os }}/Release.key"
+      keyring: /etc/apt/trusted.gpg.d/libcontainers.gpg
+    - url: "https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:{{ crio_version }}/{{ crio_os }}/Release.key"
+      keyring: /etc/apt/trusted.gpg.d/libcontainers-cri-o.gpg
+  when: ansible_os_family | lower == 'debian'
+
+# cat <<EOF | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+# deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/ /
+# EOF
+# cat <<EOF | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:$VERSION.list
+# deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/$VERSION/$OS/ /
+# EOF
+- name: 'debian : add apt repositories for stable version'
+  apt_repository: 
+    repo: "{{ item.repo }}"
+    filename: "{{ item.filename }}"
+    state: present
+  loop: 
+    - repo: "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/{{ crio_os }}/ /"
+      filename: "devel:kubic:libcontainers:stable"
+    - repo: "deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/{{ crio_version }}/{{ crio_os }}/ /"
+      filename: "devel:kubic:libcontainers:stable:cri-o:{{ crio_version }}"
+  when: ansible_os_family | lower == 'debian'
+
+# sudo apt-get update
+# sudo apt-get install cri-o cri-o-runc
+- name: 'debian : install cri-o and its dependencies'
+  apt:
+    name:
+      - cri-o
+      - cri-o-runc
+      - cri-tools
+    state: present
+    update_cache: yes
+  when: ansible_os_family | lower == 'debian'
+  notify: restart cri-o
+
+- name: start cri-o
+  systemd:
+    name: crio
+    daemon_reload: yes
+    state: started
+    enabled: yes

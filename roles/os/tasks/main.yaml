@@ -1,0 +1,25 @@
+---
+- name: set the hostname
+  hostname:
+    name: "{{ host.name }}"
+
+- name: create netplan config for static ip
+  template:
+    src: netplan.yaml.j2
+    dest: /etc/netplan/99_config.yaml
+    owner: root
+    group: root
+    mode: 0644
+  register: netplan
+
+- name: disable cloud-init network config
+  template:
+    src: disable-cloud-init.cfg.j2
+    dest: /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg
+    owner: root
+    group: root
+    mode: 0644
+
+- name: apply netplan config
+  command: netplan apply
+  when: netplan is changed

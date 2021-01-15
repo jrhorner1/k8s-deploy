@@ -1,0 +1,14 @@
+---
+
+- name: create namespace
+  command: kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml
+
+- name: install metallb
+  command: kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml
+
+- name: create random key for speaker encrypted comms
+  command: kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
+  # Windows: kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(& 'C:\Program Files\Git\usr\bin\openssl.exe' rand -base64 128)"
+
+- name: deploy configmap
+  command: kubectl apply -f roles/metallb/files/config.yaml

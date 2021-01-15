@@ -1,0 +1,13 @@
+[k8s:children]
+masters
+workers
+
+[masters]
+k8s-master01.jrhorner.com ansible_host=192.168.1.16 ansible_user=ubuntu
+k8s-master02.jrhorner.com ansible_host=192.168.1.17 ansible_user=ubuntu
+k8s-master03.jrhorner.com ansible_host=192.168.1.18 ansible_user=ubuntu
+
+[workers]
+k8s-worker01.jrhorner.com ansible_host=192.168.1.19 ansible_user=ubuntu
+k8s-worker02.jrhorner.com ansible_host=192.168.1.20 ansible_user=ubuntu
+k8s-worker03.jrhorner.com ansible_host=192.168.1.21 ansible_user=ubuntu

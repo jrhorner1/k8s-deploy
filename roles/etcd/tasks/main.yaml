@@ -1,0 +1,20 @@
+---
+- name: install etcd
+  apt: 
+    name: etcd
+    state: present
+  ignore_errors: true # etcd throws an error to dpkg because it is curerntly unconfigured that causes this task to fail
+
+- name: enable etcd
+  service: 
+    name: etcd
+    enabled: yes
+
+- name: configure etcd
+  template:
+    src: etcd.defaults.j2
+    dest: /etc/default/etcd
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart etcd

@@ -1,0 +1,1 @@
+KUBELET_EXTRA_ARGS=--node-ip {{ hostvars[inventory_hostname]['ansible_host'] }} {% if cri_plugin == 'cri-o' %}--feature-gates="AllAlpha=false,RunAsGroup=true" --container-runtime=remote --cgroup-driver=systemd --container-runtime-endpoint='unix:///var/run/crio/crio.sock' --runtime-request-timeout=5m{% endif %}

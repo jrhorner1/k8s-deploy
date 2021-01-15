@@ -1,0 +1,9 @@
+---
+cri_plugin: docker
+docker_cache_enable: false
+
+
+crio_os: "xUbuntu_20.04"
+crio_version: "1.20"
+
+common_rpi_cmd_file: /boot/firmware/cmdline.txt

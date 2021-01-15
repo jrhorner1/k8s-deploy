@@ -1,0 +1,7 @@
+host:
+  name: "k8s-worker02"
+  ip: "192.168.1.20"
+
+k3s: 
+  master: false
+  worker: true

@@ -1,0 +1,33 @@
+# ansible-playbook -i inventory site.yaml -t <tags>
+
+- hosts: all
+  become: yes
+  pre_tasks:
+    - name: "Add OS variables"
+      include_vars: "./family_vars/{{ ansible_os_family | lower }}.yml"
+    # - name: "Add group variables"
+    #   include_vars: "../group_vars/docker_cache.yml"
+  roles:
+    - { role: os, tags: [ os ] }
+    - { role: common, tags: [ common ] }
+    - { role: cri, tags: [ common, cri ] }
+    - { role: kubernetes, tags: [ common, k8s ] }
+
+- hosts: masters
+  become: yes
+  pre_tasks:
+    - name: "Add OS variables"
+      include_vars: "./family_vars/{{ ansible_os_family | lower }}.yml"
+  roles: 
+    - { role: keepalived, tags: [ master, keepalived ] }
+    - { role: haproxy, tags: [ master, haproxy ] }
+
+- hosts: all
+  become: yes
+  pre_tasks:
+    - name: "Add OS variables"
+      include_vars: "./family_vars/{{ ansible_os_family | lower }}.yml"
+  roles:
+    - { role: cluster, tags: [ cluster ] }
+    - { role: cni, tags: [ cluster, cni ] }
+    - { role: storage, tags: [ cluster, storage ] }

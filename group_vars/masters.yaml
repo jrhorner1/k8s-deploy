@@ -1,0 +1,31 @@
+---
+# Role: etcd
+etcd_unsupported_architecture: arm64
+etcd_listen:
+    peer: "http://0.0.0.0:2380"
+    client: "http://0.0.0.0:2379"
+etcd_cluster:
+    initial_state: "new"
+    token: "etcd-cluster-2"
+    
+# Role: keepalived
+keepalived_vip: '192.168.1.15'
+keepalived_interface: "{{ ansible_default_ipv4['interface'] }}"
+
+# Role: cluster
+# cluster_name: kubernetes
+cluster_extra_sans:
+ - "{{ keepalived_vip }}"
+# cluster_control_plane_endpoint: "{{ keepalived_vip }}:8443"
+# cluster_enable_admission_plugins: "NodeRestriction,AlwaysPullImages"
+# cluster_authorization_mode: "Node,RBAC"
+# cluster_audit_log_path: "/var/log/kubernetes/audit.log"
+# cluster_audit_log_maxage: 30
+# cluster_audit_log_maxbackup: 10
+# cluster_audit_log_maxsize: 100
+# cluster_pod_subnet: ""
+# cluster_etcd_heartbeat_interval: "100"
+# cluster_etcd_election_timeout: "1000"
+
+# Role: cni
+cni_plugin: calico

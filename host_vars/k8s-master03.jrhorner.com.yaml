@@ -1,0 +1,12 @@
+host:
+  name: "k8s-master03"
+  ip: "192.168.1.18"
+
+etcd:
+  name: "{{ host.name }}"
+  peers: "http://{{ host.ip }}:2380"
+  clients: "http://{{ host.ip }}:2379"
+
+k3s: 
+  master: true
+  worker: false

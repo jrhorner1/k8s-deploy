@@ -1,0 +1,13 @@
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eth0:
+      dhcp4: no
+      dhcp6: no
+      addresses:
+        - {{ network.ip }}/{{ network.subnet_cidr }}
+      gateway4: {{ network.gateway }}
+      nameservers:
+        search: [ {{ network.domain }} ]
+        addresses: [ {{ network.dns }} ]

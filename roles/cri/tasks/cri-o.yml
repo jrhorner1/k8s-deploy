@@ -46,6 +46,15 @@
   when: ansible_os_family | lower == 'debian'
   notify: restart cri-o
 
+- name: 'archlinux : install cri-o and its dependencies'
+  pacman:
+    name:
+      - cri-o
+      - crictl
+    state: present
+    update_cache: yes
+  when: ansible_os_family | lower == 'archlinux'
+
 - name: start cri-o
   systemd:
     name: crio

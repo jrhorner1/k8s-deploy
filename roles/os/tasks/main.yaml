@@ -10,7 +10,7 @@
     owner: root
     group: root
     mode: 0644
-  register: netplan
+  notify: apply netplan config
 
 - name: disable cloud-init network config
   template:
@@ -19,7 +19,4 @@
     owner: root
     group: root
     mode: 0644
-
-- name: apply netplan config
-  command: netplan apply
-  when: netplan is changed
+  notify: apply netplan config

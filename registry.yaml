@@ -1,0 +1,21 @@
+- hosts: registry
+  become: yes
+  pre_tasks:
+    - name: "Add OS variables"
+      include_vars: "./family_vars/{{ ansible_os_family | lower }}.yml"
+  roles: 
+    - os
+    - common
+    - cri
+  tasks:
+    - name: install container build tools
+      apt:
+        name: 
+          - buildah
+          - podman
+        install_recommends: false
+        update_cache: yes
+        cache_valid_time: 3600
+        force_apt_get: true
+        autoclean: yes
+        autoremove: yes

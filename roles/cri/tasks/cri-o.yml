@@ -46,6 +46,7 @@
   when: ansible_os_family | lower == 'debian'
   notify: restart cri-o
 
+# https://wiki.archlinux.org/index.php/CRI-O
 - name: 'archlinux : install cri-o and its dependencies'
   pacman:
     name:

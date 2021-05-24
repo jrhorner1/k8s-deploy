@@ -1,4 +1,9 @@
 ---
+- name: verify {{ common_rpi_config_file }} exists
+  file:
+    path: '{{ common_rpi_config_file }}'
+    state: touch
+
 - name: set gpu_mem
   lineinfile:
     path: '{{ common_rpi_config_file }}'

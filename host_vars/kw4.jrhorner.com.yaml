@@ -1,6 +1,6 @@
 host:
-  name: "k8s-worker03"
-  ip: "192.168.1.21"
+  name: "kw4"
+  ip: "192.168.1.17"
 
 k3s: 
   master: false

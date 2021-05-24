@@ -1,5 +1,0 @@
-K3S_TOKEN={{ k3s_cluster_token }}
-K3S_NODE_NAME={{ host.name }}
-K3S_DATASTORE_ENDPOINT={% for host in groups['master'] %}{{ hostvars[host].etcd.clients }}{% if not loop.last %},{% endif %}{% endfor %}
-
-K3S_KUBECONFIG_MODE=644

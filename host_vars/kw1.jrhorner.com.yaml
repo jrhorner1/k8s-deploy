@@ -1,6 +1,6 @@
 host:
   name: "kw1"
-  ip: "192.168.1.14"
+  ip: "192.168.11.14"
 
 k3s: 
   master: false

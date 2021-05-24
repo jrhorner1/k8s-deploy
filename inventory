@@ -6,13 +6,13 @@ masters
 workers
 
 [masters]
-km1.jrhorner.com ansible_host=192.168.1.11 ansible_user=ubuntu
-km2.jrhorner.com ansible_host=192.168.1.12 ansible_user=ubuntu
-km3.jrhorner.com ansible_host=192.168.1.13 ansible_user=ubuntu
+km1.jrhorner.com ansible_host=192.168.11.11 ansible_user=ubuntu
+km2.jrhorner.com ansible_host=192.168.11.12 ansible_user=ubuntu
+km3.jrhorner.com ansible_host=192.168.11.13 ansible_user=ubuntu
 
 [workers]
-kw1.jrhorner.com ansible_host=192.168.1.14 ansible_user=ubuntu
-kw2.jrhorner.com ansible_host=192.168.1.15 ansible_user=ubuntu
-kw3.jrhorner.com ansible_host=192.168.1.16 ansible_user=ubuntu
-kw4.jrhorner.com ansible_host=192.168.1.17 ansible_user=ubuntu
-kw5.jrhorner.com ansible_host=192.168.1.18 ansible_user=ubuntu
+kw1.jrhorner.com ansible_host=192.168.11.14 ansible_user=ubuntu
+kw2.jrhorner.com ansible_host=192.168.11.15 ansible_user=ubuntu
+kw3.jrhorner.com ansible_host=192.168.11.16 ansible_user=ubuntu
+kw4.jrhorner.com ansible_host=192.168.11.17 ansible_user=ubuntu
+kw5.jrhorner.com ansible_host=192.168.11.18 ansible_user=ubuntu

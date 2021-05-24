@@ -1,6 +1,6 @@
 host:
   name: "km1"
-  ip: "192.168.1.11"
+  ip: "192.168.11.11"
 
 etcd:
   name: "{{ host.name }}"

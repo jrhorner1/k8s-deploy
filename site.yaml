@@ -22,7 +22,7 @@
     - { role: keepalived, tags: [ master, keepalived ] }
     - { role: haproxy, tags: [ master, haproxy ] }
 
-- hosts: all
+- hosts: masters:workers
   become: yes
   pre_tasks:
     - name: "Add OS variables"

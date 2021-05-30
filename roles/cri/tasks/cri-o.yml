@@ -56,6 +56,15 @@
     update_cache: yes
   when: ansible_os_family | lower == 'archlinux'
 
+- name: configure registries
+  template:
+    src: registries.conf.j2
+    dest: /etc/containers/registries.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart cri-o
+
 - name: start cri-o
   systemd:
     name: crio

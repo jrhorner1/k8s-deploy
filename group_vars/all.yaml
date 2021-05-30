@@ -1,29 +1,27 @@
 # Role: os
 network:
   ip: "{{ host.ip }}"
-  gateway: "192.168.1.1"
-  dns: "192.168.1.2"
+  gateway: "192.168.11.1"
+  dns: "192.168.11.2, 192.168.11.3"
   subnet_cidr: "24"
   domain: "jrhorner.com"
-
-# Role: k3s
-k3s_cluster_token: rpicluster3
-k3s_cluster_url: "https://k3s.jrhorner.com:8443"
 
 # Role: common
 common_upgrade_packages: true
 common_reboot_handler_enabled: true
-# common_timezone: UTC
+common_timezone: America/New_York
 # common_usb_ssd_enabled: false
 # common_usb_ssd_device_id: ""
 # common_rpi_overclock: false
-# common_rpi_poe_hat: false
+common_rpi_poe_hat: true
 common_log2ram_enabled: false
 # common_log2ram_version: v1.4
 # common_log2ram_size: 128M
 
-# Role: docker_cache
-docker_cache_enable: false
+# Role: registry_mirror
+registry_mirror_enable: true
+registry_mirror_fqdn: "registry.jrhorner.com"
+registry_mirror_tls_enable: true
 
 # Role: cri
 cri_plugin: cri-o
@@ -37,4 +35,4 @@ kubernetes_kubelet_version: 1.20.2-00
 kubernetes_kubeadm_version: 1.20.2-00
 
 # Role: storage
-openebs_enabled: false
+openebs_enabled: true

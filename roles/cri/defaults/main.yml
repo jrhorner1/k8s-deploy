@@ -1,6 +1,6 @@
 ---
 cri_plugin: docker
-docker_cache_enable: false
+registry_mirror_enable: false
 
 
 crio_os: "xUbuntu_20.04"

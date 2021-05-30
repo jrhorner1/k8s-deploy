@@ -9,7 +9,7 @@ etcd_cluster:
     token: "etcd-cluster-2"
     
 # Role: keepalived
-keepalived_vip: '192.168.1.15'
+keepalived_vip: '192.168.11.10'
 keepalived_interface: "{{ ansible_default_ipv4['interface'] }}"
 
 # Role: cluster

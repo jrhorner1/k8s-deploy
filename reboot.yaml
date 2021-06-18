@@ -1,6 +1,7 @@
 ---
 - hosts: masters,workers
   become: yes
+  serial: 1
   tasks: 
     - name: reboot hosts
       reboot:

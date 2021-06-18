@@ -6,7 +6,6 @@
     - name: "Add OS variables"
       include_vars: "./family_vars/{{ ansible_os_family | lower }}.yml"
   roles:
-    - { role: os, tags: [ os ] }
     - { role: common, tags: [ common ] }
     - { role: cri, tags: [ common, cri ] }
     - { role: kubernetes, tags: [ common, k8s ] }
@@ -22,6 +21,7 @@
 
 - hosts: masters:workers
   become: yes
+  order: sorted
   pre_tasks:
     - name: "Add OS variables"
       include_vars: "./family_vars/{{ ansible_os_family | lower }}.yml"

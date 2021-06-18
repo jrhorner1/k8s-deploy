@@ -58,8 +58,8 @@
 
 - name: configure registries
   template:
-    src: registries.conf.j2
-    dest: /etc/containers/registries.conf
+    src: cri-o/mirrors.conf.j2
+    dest: /etc/containers/registries.conf.d/010_mirrors.conf
     owner: root
     group: root
     mode: 0644

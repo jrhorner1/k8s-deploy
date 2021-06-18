@@ -14,7 +14,16 @@
     dest: /etc/kubernetes/kubeadm-join.yml
   when: not cluster_node_configured
 
+- name: check/wait for cluster apiserver to be available
+  wait_for:
+    host: '{{ hostvars[groups["masters"]|first]["ansible_default_ipv4"]["address"] }}'
+    port: '{{ cluster_apiserver_bind_port }}'
+    timeout: 180
+
 - name: join node to cluster
   command:
     cmd: kubeadm join --config /etc/kubernetes/kubeadm-join.yml
     creates: /etc/kubernetes/kubelet.conf
+  run_once: true
+  with_items: "{{ groups['join'] }}"
+  delegate_to: "{{ item }}"

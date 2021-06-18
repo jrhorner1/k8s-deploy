@@ -55,5 +55,17 @@
     # https://kubernetes.slack.com/archives/CUAKPFU78/p1597059291191700?thread_ts=1597053760.188200&cid=CUAKPFU78
     - name: remove openebs directory
       file:
-        path: /var/openebs
+        path: /var/openebs/*
         state: absent
+
+    - name: 'debian :remove cri-o'
+      apt:
+        name:
+          - cri-o
+          - cri-o-runc
+          - cri-tools
+        state: absent
+      when: ansible_os_family | lower == 'debian'
+
+    - name: stop crio service
+      command: systemctl stop crio.service

@@ -45,19 +45,27 @@
   notify: reboot hosts
 
 # Adding required CRI/Kubernetes cgroups
+- name: check if the nobtcmd.txt file exists
+  stat: 
+    path: /boot/firmware/nobtcmd.txt
+  when: ansible_architecture | regex_search('arm|aarch') 
+  register: rpi_nobtcmd
+
 - name: create the nobtcmd.txt file if it does not exist
   become: true
   file: 
     path: /boot/firmware/nobtcmd.txt
     state: touch
-  when: ansible_architecture | regex_search('arm|aarch')
+  when: 
+    - ansible_architecture | regex_search('arm|aarch') 
+    - not rpi_nobtcmd.stat.exists
 
 - name: enable required cgroup features
   lineinfile:
     path: '{{ common_rpi_cmd_file }}'
     state: present
     backrefs: true
-    regexp: '^(.*fixrtc)$'
+    regexp: '^(.*fixrtc( quiet)?( splash)?)$'
     line: '\1 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory swapaccount=1'
   notify: reboot hosts
   when: ansible_architecture | regex_search('arm|aarch')

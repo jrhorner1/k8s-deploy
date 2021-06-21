@@ -1,0 +1,65 @@
+---
+- hosts: all
+  gather_facts: false
+  vars:
+    ansible_first_login_password: ubuntu
+    ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
+    # Use ansible vault for password. 
+    ansible_password: "{{ ansible_password }}" 
+  tasks:
+    - name: "Check if host is reachable"
+      wait_for: 
+        timeout: 0
+      register: connect_rs
+      ignore_unreachable: yes
+
+    - when: "connect_rs is unreachable"
+      name: "Try first login and change password"
+      delegate_to: localhost
+      expect:
+        command: sshpass -p {{ ansible_first_login_password }} ssh {{ ansible_ssh_common_args }} {{ ansible_user }}@{{ inventory_hostname }}
+        timeout: 10
+        responses:
+          "Current password:": "{{ ansible_first_login_password }}"
+          "New password:": "{{ ansible_password }}"
+          "Retype new password:": "{{ ansible_password }}"
+
+- import_playbook: remote.yaml
+
+- hosts: all
+  become: yes
+  vars_prompt:
+    name: "purge_backup"
+    prompt: "Do you want to remove existing backups? (yes/no)"
+    default: "no"
+    private: no
+  tasks:
+    - name: "Install required packages"
+      apt:
+        name: zstd
+        state: latest
+        update_cache: yes
+
+    - name: "Copy backup/restore scripts to host"
+      copy:
+        src: "{{ item }}"
+        dest: /
+        owner: root
+        group: root
+        mode: 0750
+      loop:
+        - "../files/scripts/backup.sh"
+        - "../files/scripts/restore.sh"
+
+    - name: "Purge existing backup"
+      file: 
+        path: "/backup.tar.zst"
+        state: absent
+      when: purge_backup != 'no'
+
+    - name: "Run backup script"
+      script:
+        cmd: "../files/scripts/backup.sh"
+        chdir: /
+        creates: "/backup.tar.zst"
+        

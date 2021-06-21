@@ -16,12 +16,3 @@ kw2.jrhorner.com ansible_host=192.168.11.15 ansible_user=ubuntu
 kw3.jrhorner.com ansible_host=192.168.11.16 ansible_user=ubuntu
 kw4.jrhorner.com ansible_host=192.168.11.17 ansible_user=ubuntu
 kw5.jrhorner.com ansible_host=192.168.11.18 ansible_user=ubuntu
-
-[join]
-km2.jrhorner.com ansible_host=192.168.11.12 ansible_user=ubuntu
-km3.jrhorner.com ansible_host=192.168.11.13 ansible_user=ubuntu
-kw1.jrhorner.com ansible_host=192.168.11.14 ansible_user=ubuntu
-kw2.jrhorner.com ansible_host=192.168.11.15 ansible_user=ubuntu
-kw3.jrhorner.com ansible_host=192.168.11.16 ansible_user=ubuntu
-kw4.jrhorner.com ansible_host=192.168.11.17 ansible_user=ubuntu
-kw5.jrhorner.com ansible_host=192.168.11.18 ansible_user=ubuntu

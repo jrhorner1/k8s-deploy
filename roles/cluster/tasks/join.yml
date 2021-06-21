@@ -25,5 +25,5 @@
     cmd: kubeadm join --config /etc/kubernetes/kubeadm-join.yml
     creates: /etc/kubernetes/kubelet.conf
   run_once: true
-  with_items: "{{ groups['join'] }}"
+  with_items: "{{ ansible_play_hosts }}"
   delegate_to: "{{ item }}"
